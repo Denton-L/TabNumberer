@@ -1,6 +1,4 @@
 # TabNumberer
-A Chrome extension to add numbers to tabs when modifier keys are pressed.
+A Chrome extension that adds numbers to the title bar when the Ctrl key is pressed.
 
-## Todo
-* Add icons
-* Actually define the scripts
+Developed with love using vanilla JavaScript.
