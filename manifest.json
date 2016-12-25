@@ -11,6 +11,9 @@
 	},
 	"icons": {
 	},
+	"background": {
+		"scripts": ["scripts/background.js"]
+	},
 	"content_scripts": [
 		{
 			"matches": [
