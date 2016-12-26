@@ -2,13 +2,7 @@
 
 var keyDownCount = 0;
 
-function numberTabs(isKeyDown) {
-	if (isKeyDown) {
-		keyDownCount++;
-	} else {
-		keyDownCount--;
-	}
-
+function numberTabs() {
 	chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, function (tabs) {
 		tabs.forEach(function (tab) {
 			chrome.tabs.sendMessage(tab.id, {
@@ -19,8 +13,18 @@ function numberTabs(isKeyDown) {
 	});
 }
 
+function ctrlEvent(isKeyDown) {
+	if (isKeyDown) {
+		keyDownCount++;
+	} else {
+		keyDownCount = Math.max(0, keyDownCount - 1);
+	}
+
+	numberTabs();
+}
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id && message.message === "ctrlEvent") {
-		numberTabs(message.isKeyDown);
+		ctrlEvent(message.isKeyDown);
 	}
 });
