@@ -13,20 +13,15 @@ function numberTabs() {
 	});
 }
 
-function ctrlEvent(isKeyDown) {
-	if (isKeyDown) {
-		keyDownCount++;
-	} else {
-		keyDownCount = Math.max(0, keyDownCount - 1);
-	}
-
-	numberTabs();
-}
-
-
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id && message.message === "ctrlEvent") {
-		ctrlEvent(message.isKeyDown);
+		if (message.isKeyDown) {
+			keyDownCount++;
+		} else {
+			keyDownCount = Math.max(0, keyDownCount - 1);
+		}
+
+		numberTabs();
 	}
 });
 
