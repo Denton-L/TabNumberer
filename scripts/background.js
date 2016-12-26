@@ -23,8 +23,14 @@ function ctrlEvent(isKeyDown) {
 	numberTabs();
 }
 
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id && message.message === "ctrlEvent") {
 		ctrlEvent(message.isKeyDown);
 	}
+});
+
+chrome.tabs.onActivated.addListener(function (tab) {
+	keyDownCount = 0;
+	numberTabs();
 });
