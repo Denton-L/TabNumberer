@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			originalTitle = null;
 		} else if (message.tabNumber > 0 && originalTitle === null) {
 			originalTitle = document.title;
-			document.title = "(" + message.tabNumber + ") " + document.title;
+			document.title = message.tabNumber + ". " + document.title;
 		}
 	}
 });
