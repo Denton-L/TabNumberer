@@ -3,12 +3,25 @@
 var controlKeycode = 17;
 
 var originalTitle = null;
+var controlledChange = false;
+var lastNumber = 0;
 
 function emitCtrlEvent(isKeyDown) {
 	return {
 		message: "ctrlEvent",
 		isKeyDown: isKeyDown
 	};
+}
+
+function numberTitle() {
+	controlledChange = true;
+	originalTitle = document.title;
+	document.title = lastNumber + ". " + document.title;
+}
+
+function unNumberTitle() {
+	document.title = originalTitle;
+	originalTitle = null;
 }
 
 window.addEventListener("keydown", function (event) {
@@ -32,12 +45,23 @@ window.addEventListener("blur", function (event) {
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id && message.message === "titleEvent") {
-		if (message.tabNumber === 0 && originalTitle !== null) {
-			document.title = originalTitle;
-			originalTitle = null;
-		} else if (message.tabNumber > 0 && originalTitle === null) {
-			originalTitle = document.title;
-			document.title = message.tabNumber + ". " + document.title;
+		lastNumber = message.tabNumber;
+		if (lastNumber === 0 && originalTitle !== null) {
+			unNumberTitle();
+		} else if (lastNumber > 0 && originalTitle === null) {
+			numberTitle();
 		}
 	}
 });
+
+window.onload = function () {
+	new MutationObserver(function (mutations) {
+		if (controlledChange) {
+			controlledChange = false;
+		} else if (lastNumber > 0 && originalTitle !== null) {
+			numberTitle();
+		}
+	}).observe(document.querySelector("title"), {
+		childList: true
+	});
+}
