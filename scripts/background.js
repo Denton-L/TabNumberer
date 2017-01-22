@@ -7,7 +7,7 @@ function numberTabs() {
 		tabs.forEach(function (tab) {
 			chrome.tabs.sendMessage(tab.id, {
 				message: "titleEvent",
-				tabNumber: (keyDownCount > 0 && tab.index < 10) ? tab.index + 1 : 0
+				tabNumber: (keyDownCount > 0 && tab.index < 9) ? tab.index + 1 : 0
 			});
 		});
 	});
