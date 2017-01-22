@@ -23,6 +23,13 @@ window.addEventListener("keyup", function (event) {
 	}
 });
 
+window.addEventListener("blur", function (event) {
+	chrome.runtime.sendMessage({
+		message: "setKeyCount",
+		count: 0
+	});
+});
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id && message.message === "titleEvent") {
 		if (message.tabNumber === 0 && originalTitle !== null) {

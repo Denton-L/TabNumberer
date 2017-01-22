@@ -14,18 +14,20 @@ function numberTabs() {
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	if (sender.id === chrome.runtime.id && message.message === "ctrlEvent") {
-		if (message.isKeyDown) {
-			keyDownCount++;
-		} else {
-			keyDownCount = Math.max(0, keyDownCount - 1);
+	if (sender.id === chrome.runtime.id) {
+		switch (message.message) {
+			case "ctrlEvent":
+				if (message.isKeyDown) {
+					keyDownCount++;
+				} else {
+					keyDownCount = Math.max(0, keyDownCount - 1);
+				}
+				break;
+			case "setKeyCount":
+				keyDownCount = message.count;
+				break;
 		}
 
 		numberTabs();
 	}
-});
-
-chrome.tabs.onActivated.addListener(function (tab) {
-	keyDownCount = 0;
-	numberTabs();
 });
