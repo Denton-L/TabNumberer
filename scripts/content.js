@@ -58,7 +58,7 @@ window.onload = function () {
 	new MutationObserver(function (mutations) {
 		if (controlledChange) {
 			controlledChange = false;
-		} else if (lastNumber > 0 && originalTitle !== null) {
+		} else if (lastNumber > 0) {
 			numberTitle();
 		}
 	}).observe(document.querySelector("title"), {
