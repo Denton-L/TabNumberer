@@ -5,9 +5,21 @@ var keyDownCount = 0;
 function numberTabs() {
 	chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, function (tabs) {
 		tabs.forEach(function (tab) {
+			var number;
+			if (keyDownCount > 0) {
+				if (tab.index < 8) {
+					number = tab.index + 1;
+				} else if (tab.index == tabs.length - 1) {
+					number = 9;
+				} else {
+					number = 0;
+				}
+			} else {
+				number = 0;
+			}
 			chrome.tabs.sendMessage(tab.id, {
 				message: "titleEvent",
-				tabNumber: (keyDownCount > 0 && tab.index < 9) ? tab.index + 1 : 0
+				tabNumber: number
 			});
 		});
 	});
