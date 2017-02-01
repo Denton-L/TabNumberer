@@ -43,3 +43,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		numberTabs();
 	}
 });
+
+chrome.tabs.onActivated.addListener(function (tab) {
+	keyDownCount = 0;
+	numberTabs();
+});
