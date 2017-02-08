@@ -1,14 +1,12 @@
 "use strict";
 
-var controlKeycode = 17;
-
 var originalTitle = null;
 var controlledChange = false;
 var lastNumber = 0;
 
-function emitCtrlEvent(isKeyDown) {
+function emitKeyEvent(isKeyDown) {
 	return {
-		message: "ctrlEvent",
+		message: "keyEvent",
 		isKeyDown: isKeyDown
 	};
 }
@@ -24,15 +22,23 @@ function unNumberTitle() {
 	originalTitle = null;
 }
 
+function isListenableKeyEvent(event) {
+	var keyCode = event.keyCode;
+
+	return navigator.appVersion.indexOf("Mac") > 0 ?
+		keyCode === 91 || keyCode === 93 :
+		keyCode === 17;
+}
+
 window.addEventListener("keydown", function (event) {
-	if (event.keyCode === controlKeycode) {
-		chrome.runtime.sendMessage(emitCtrlEvent(true));
+	if (isListenableKeyEvent(event)) {
+		chrome.runtime.sendMessage(emitKeyEvent(true));
 	}
 });
 
 window.addEventListener("keyup", function (event) {
-	if (event.keyCode === controlKeycode) {
-		chrome.runtime.sendMessage(emitCtrlEvent(false));
+	if (isListenableKeyEvent(event)) {
+		chrome.runtime.sendMessage(emitKeyEvent(false));
 	}
 });
 

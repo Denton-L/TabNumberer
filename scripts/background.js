@@ -28,7 +28,7 @@ function numberTabs() {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (sender.id === chrome.runtime.id) {
 		switch (message.message) {
-			case "ctrlEvent":
+			case "keyEvent":
 				if (message.isKeyDown) {
 					keyDownCount++;
 				} else {
